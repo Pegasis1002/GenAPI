@@ -2,6 +2,7 @@ package main
 
 import (
 	"net/http"
+
 	"github.com/gin-gonic/gin"
 )
 
@@ -20,7 +21,7 @@ func main() {
 	r := gin.Default()
 	r.GET("/users", get_users)
 
-	r.Run("localhost:8080")
+	r.Run("0.0.0.0:8080")
 }
 
 func get_users(c *gin.Context) {
