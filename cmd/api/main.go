@@ -3,7 +3,6 @@ package main
 import (
 	// External
 
-	"context"
 	"os"
 
 	// Internal
@@ -20,8 +19,6 @@ func main() {
 	dbpool := db.OpenNewDbPool(os.Getenv("DB_URL"))
 	defer dbpool.Close()
 
-	ctx := context.Background()
-
 	// Create and run the gin router with appropriate middlewares
-	router.NewRouterRun("0.0.0.0:8080", dbpool, ctx)
+	router.NewRouterRun("0.0.0.0:8080", dbpool)
 }

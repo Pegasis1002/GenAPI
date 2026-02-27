@@ -1,7 +1,6 @@
 package router
 
 import (
-	"context"
 	"net/http"
 
 	auth_m "gentools/genapi/internal/middleware/auth"
@@ -22,13 +21,13 @@ var users = []user{
 	{ID: "3", Name: "33"},
 }
 
-func NewRouterRun(url string, dbpool *pgxpool.Pool, ctx context.Context) {
+func NewRouterRun(url string, dbpool *pgxpool.Pool) {
 	r := gin.New()
 
 	r.Use(gin.Recovery())
 	r.Use(logger_m.GenLogger())
 
-	r.Use(auth_m.GenAuth(dbpool, ctx))
+	r.Use(auth_m.GenAuth(dbpool))
 
 	r.GET("/users", get_users)
 	r.Run(url)

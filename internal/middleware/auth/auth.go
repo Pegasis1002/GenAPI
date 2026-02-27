@@ -1,7 +1,6 @@
 package middleware
 
 import (
-	"context"
 	"log/slog"
 	"net/http"
 
@@ -11,10 +10,11 @@ import (
 	"gentools/genapi/internal/core/logger"
 )
 
-func GenAuth(dbpool *pgxpool.Pool, ctx context.Context) gin.HandlerFunc {
+func GenAuth(dbpool *pgxpool.Pool) gin.HandlerFunc {
 	return func(c *gin.Context) {
 		api_key := c.GetHeader("API-KEY")
 		clientIP := c.ClientIP()
+		ctx := c.Request.Context()
 
 		if api_key == "" {
 			// Log a warning to the system(Docker) logs.
@@ -32,7 +32,7 @@ func GenAuth(dbpool *pgxpool.Pool, ctx context.Context) gin.HandlerFunc {
 
 		// Database check
 		var registeredIP string
-		err := dbpool.QueryRow(ctx, "SELECT ip_addr FROM api_keys WHERE key_value = ?", api_key).Scan(&registeredIP)
+		err := dbpool.QueryRow(ctx, "SELECT ip_addr FROM api_keys WHERE key_value = $1", api_key).Scan(&registeredIP)
 		if err != nil {
 			logger.Log.Error(
 				"Invalid API key attempt",
@@ -54,7 +54,7 @@ func GenAuth(dbpool *pgxpool.Pool, ctx context.Context) gin.HandlerFunc {
 		// This prevents api key sharing
 		// Disabled by default
 		if false {
-			if registeredIP != "" && registeredIP == clientIP {
+			if registeredIP != "" && registeredIP != clientIP {
 				logger.Log.Warn(
 					"IP Mismatch",
 					slog.String("expected", registeredIP),
