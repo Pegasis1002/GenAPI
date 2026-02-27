@@ -1,11 +1,14 @@
 package router
 
 import (
+	"context"
 	"net/http"
 
-	"gentools/genapi/internal/middleware"
+	auth_m "gentools/genapi/internal/middleware/auth"
+	logger_m "gentools/genapi/internal/middleware/logger"
 
 	"github.com/gin-gonic/gin"
+	"github.com/jackc/pgx/v5/pgxpool"
 )
 
 type user struct {
@@ -19,11 +22,13 @@ var users = []user{
 	{ID: "3", Name: "33"},
 }
 
-func NewRouterRun(url string) {
+func NewRouterRun(url string, dbpool *pgxpool.Pool, ctx context.Context) {
 	r := gin.New()
 
 	r.Use(gin.Recovery())
-	r.Use(middleware.GenLogger())
+	r.Use(logger_m.GenLogger())
+
+	r.Use(auth_m.GenAuth(dbpool, ctx))
 
 	r.GET("/users", get_users)
 	r.Run(url)
