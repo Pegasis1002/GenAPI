@@ -1,16 +1,8 @@
 # GenAPI
 
-GenAPI is a Go-based API boilerplate designed for scalability and modularity. It features structured logging, a Gin-based router, and a modular architecture to facilitate easy extension.
+GenAPI is a Go-based API boilerplate designed for scalability and modularity.
 
 > **Note:** This project is currently in the early stages of development. Much of the codebase consists of placeholders, with core infrastructure like the logger and basic routing already implemented.
-
-## Features
-
-- **Framework**: [Gin Gonic](https://github.com/gin-gonic/gin) for high-performance HTTP routing.
-- **Logging**: Structured JSON logging using Go's standard `slog` library.
-- **Database**: Integration-ready with `pgx` (PostgreSQL).
-- **Architecture**: Clean, modular structure separating core logic from domain-specific modules.
-- **Containerization**: Docker and Docker Compose support.
 
 ## Getting Started
 
@@ -52,40 +44,20 @@ Build and run the application using Docker Compose:
 docker-compose up --build
 ```
 
-## API Documentation
+## Documentation
 
-### Endpoints (Current Placeholders)
+Full documentation is available in the [GitHub Wiki](https://github.com/Pegasis1002/GenAPI/wiki).
 
-- `GET /users`: Returns a list of placeholder users.
+## Contributing
 
-### Logging
+We welcome contributions to GenAPI! To ensure a smooth process, please follow these rules:
 
-The API uses structured JSON logging. Each request is logged with its status, method, path, latency, and client IP.
+1. **Fork and Branch**: Always create a new branch for your feature or bug fix.
+2. **Code Style**: Adhere to the standard Go coding conventions (`gofmt`, `go vet`).
+3. **Commit Messages**: Use clear, descriptive commit messages.
+4. **Pull Requests**: Provide a detailed description of your changes when submitting a PR.
+5. **Testing**: Ensure your changes are tested and don't break existing functionality.
 
-Example log output:
-```json
-{"time":"2026-02-26T10:00:00Z","level":"INFO","msg":"request_completed","status":200,"method":"GET","path":"/users","latency":500000,"ip":"127.0.0.1"}
-```
+## License
 
-## Extending the API
-
-The project is structured to be easily extendable:
-
-### Directory Structure
-
-- `cmd/api/`: Application entry point.
-- `configs/`: Configuration files (e.g., `config.yml`).
-- `internal/core/`: Essential infrastructure components (DB, Logger, Router).
-- `internal/middleware/`: Custom Gin middlewares.
-- `internal/modules/`: Domain-specific business logic. This is where you should add new features.
-- `pkg/`: Publicly exportable utility packages.
-
-### Adding a New Module
-
-1. Create a new directory under `internal/modules/` (e.g., `internal/modules/my_feature`).
-2. Implement your handlers, services, and models within that directory.
-3. Register your routes in `internal/core/router/gin.go` (or create a registration mechanism in your module and call it from the core router).
-
-### Modifying the Logger
-
-The logger is initialized in `internal/core/logger/logger.go`. You can customize the output format or level there.
+This project is licensed under the [MIT License](LICENSE).

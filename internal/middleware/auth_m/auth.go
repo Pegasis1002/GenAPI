@@ -7,10 +7,11 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/jackc/pgx/v5/pgxpool"
 
+	config "gentools/genapi/configs"
 	"gentools/genapi/internal/core/logger"
 )
 
-func GenAuth(dbpool *pgxpool.Pool) gin.HandlerFunc {
+func GenAuth(dbpool *pgxpool.Pool, cfg *config.Config) gin.HandlerFunc {
 	return func(c *gin.Context) {
 		api_key := c.GetHeader("API-KEY")
 		clientIP := c.ClientIP()
@@ -54,7 +55,7 @@ func GenAuth(dbpool *pgxpool.Pool) gin.HandlerFunc {
 		// Only the registeredIP can make calls with the assigned api_key
 		// This prevents api key sharing
 		// Disabled by default
-		if false {
+		if cfg.Auth.EnforceIP {
 			if registeredIP != "" && registeredIP != clientIP {
 				logger.Log.Warn(
 					"IP Mismatch",
