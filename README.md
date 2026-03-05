@@ -60,4 +60,4 @@ We welcome contributions to GenAPI! To ensure a smooth process, please follow th
 
 ## License
 
-This project is licensed under the [MIT License](LICENSE).
+This project is licensed under the [AGPLv3 License](LICENSE).
