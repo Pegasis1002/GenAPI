@@ -3,7 +3,7 @@ package router
 import (
 	"net/http"
 
-	auth_m "gentools/genapi/internal/middleware/auth"
+	auth_m "gentools/genapi/internal/middleware/auth_m"
 	logger_m "gentools/genapi/internal/middleware/logger"
 
 	"github.com/gin-gonic/gin"

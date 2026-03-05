@@ -1,4 +1,4 @@
-package middleware
+package auth_m
 
 import (
 	"log/slog"
@@ -16,6 +16,7 @@ func GenAuth(dbpool *pgxpool.Pool) gin.HandlerFunc {
 		clientIP := c.ClientIP()
 		ctx := c.Request.Context()
 
+		// Error log for missing API key
 		if api_key == "" {
 			// Log a warning to the system(Docker) logs.
 			logger.Log.Warn(
